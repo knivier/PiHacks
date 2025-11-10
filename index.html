@@ -4,389 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PiHacks 2026 | Pioneer High School Hackathon</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #1a0f3e 25%, #2d1b49 50%, #1a0f3e 75%, #0f0c29 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            color: #ffffff;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Animated background particles */
-        .particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #9d4edd;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        /* Content wrapper */
-        .content-wrapper {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, #9d4edd 0%, #c77dff 50%, #e0aaff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease;
-        }
-
-        .hero .subtitle {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            color: #c77dff;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1.2s ease;
-        }
-
-        .hero .tagline {
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            color: #e0aaff;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1.4s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .cta-button {
-            padding: 1.2rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(157, 78, 221, 0.3);
-            animation: fadeInUp 1.6s ease, pulse 2s ease-in-out infinite;
-            margin-bottom: 2rem;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 10px 40px rgba(157, 78, 221, 0.3);
-            }
-            50% {
-                box-shadow: 0 10px 60px rgba(157, 78, 221, 0.6);
-            }
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(157, 78, 221, 0.5);
-        }
-
-        /* Section Styles */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Cards */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .card {
-            background: rgba(157, 78, 221, 0.1);
-            border: 2px solid rgba(199, 125, 255, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(157, 78, 221, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: #c77dff;
-            box-shadow: 0 20px 60px rgba(157, 78, 221, 0.3);
-        }
-
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #c77dff;
-        }
-
-        .card p {
-            color: #e0aaff;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            align-items: center;
-        }
-
-        .timeline-time {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #9d4edd;
-            min-width: 100px;
-        }
-
-        .timeline-content {
-            flex: 1;
-            background: rgba(157, 78, 221, 0.1);
-            border-left: 4px solid #c77dff;
-            padding: 1.5rem;
-            border-radius: 10px;
-        }
-
-        .timeline-content h4 {
-            color: #c77dff;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-content p {
-            color: #e0aaff;
-        }
-
-        /* Prizes Section */
-        .prize-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .prize-card {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(199, 125, 255, 0.1));
-            border: 2px solid #c77dff;
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .prize-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(157, 78, 221, 0.4);
-        }
-
-        .prize-card h4 {
-            color: #c77dff;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Info Section */
-        .info-section {
-            background: rgba(157, 78, 221, 0.1);
-            border-radius: 30px;
-            padding: 3rem;
-            margin: 3rem 0;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .info-item {
-            padding: 1.5rem;
-        }
-
-        .info-item h4 {
-            color: #c77dff;
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
-        }
-
-        .info-item p {
-            color: #e0aaff;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: #c77dff;
-        }
-
-        /* Scroll animations */
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .slide-in {
-            animation: fadeInUp 0.8s ease;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .timeline-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .timeline-time {
-                min-width: auto;
-                margin-bottom: 0.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Particles Background -->
     <div class="particles" id="particles"></div>
 
     <div class="content-wrapper">
-        <!-- Hero Section -->
         <section class="hero">
             <h1>PIHACKS</h1>
             <p class="subtitle">Pioneer High School Hackathon</p>
             <p class="tagline">Innovate • Create • Build</p>
             <a href="https://phs26.fillout.com/pihacks" target="_blank" class="cta-button">Register Now</a>
-            <p style="color: #e0aaff; font-size: 1rem;">Saturday, April 2026 | 9:00 AM - 5:00 PM</p>
+            <p class="date-time">Saturday, February 28th, 2026 | 9:00 AM - 5:00 PM</p>
         </section>
 
-        <!-- About Section -->
         <section id="about">
             <h2 class="section-title">About PiHacks</h2>
-            <p style="text-align: center; font-size: 1.2rem; color: #e0aaff; max-width: 800px; margin: 0 auto;">
+            <p class="about-text">
                 Join us for an exciting 8-hour hackathon where creativity meets innovation! 
                 Build amazing projects, connect with fellow developers, and compete for incredible prizes. 
                 Food, swag, and great energy included!
             </p>
         </section>
 
-        <!-- Tracks Section -->
         <section id="tracks">
             <h2 class="section-title">Competition Tracks</h2>
             <div class="card-grid">
@@ -413,7 +53,6 @@
             </div>
         </section>
 
-        <!-- Schedule Section -->
         <section id="schedule">
             <h2 class="section-title">Event Schedule</h2>
             <div class="timeline">
@@ -455,7 +94,6 @@
             </div>
         </section>
 
-        <!-- Prizes Section -->
         <section id="prizes">
             <h2 class="section-title">Prizes</h2>
             <div class="prize-grid">
@@ -478,7 +116,6 @@
             </div>
         </section>
 
-        <!-- Info Section -->
         <section id="info">
             <h2 class="section-title">Important Information</h2>
             <div class="info-grid">
@@ -501,65 +138,18 @@
             </div>
         </section>
 
-        <!-- Registration CTA -->
-        <section style="text-align: center; padding: 5rem 2rem;">
+        <section class="cta-section">
             <h2 class="section-title">Ready to Hack?</h2>
-            <p style="font-size: 1.3rem; color: #e0aaff; margin-bottom: 2rem;">Join us for an unforgettable day of coding and innovation!</p>
+            <p class="cta-text">Join us for an unforgettable day of coding and innovation!</p>
             <a href="https://phs26.fillout.com/pihacks" target="_blank" class="cta-button">Register Now</a>
         </section>
 
-        <!-- Footer -->
         <footer>
             <p>&copy; 2026 PiHacks | Pioneer High School</p>
-            <p style="margin-top: 1rem; color: #9d4edd;">Powered by passion, built by students</p>
+            <p class="footer-tagline">Powered by passion, built by students</p>
         </footer>
     </div>
 
-    <script>
-        // Create floating particles
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 50;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
-            particlesContainer.appendChild(particle);
-        }
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('slide-in');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.card, .timeline-item, .prize-card, .info-item').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
