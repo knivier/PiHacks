@@ -482,6 +482,24 @@ footer {
     border-top: 1px solid rgba(199, 125, 255, 0.2);
 }
 
+.footer-logo {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-logo-img {
+    max-width: 120px;
+    height: auto;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.footer-logo-img:hover {
+    opacity: 1;
+}
+
 @media (min-width: 768px) {
     footer {
         padding: 3rem 2rem;
@@ -751,6 +769,10 @@ footer p {
     .cta-button {
         padding: 1rem 2.5rem;
         font-size: 1rem;
+    }
+
+    .footer-logo-img {
+        max-width: 100px;
     }
 }
 
