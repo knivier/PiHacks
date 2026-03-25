@@ -2,7 +2,14 @@
     'use strict';
     
     const particlesContainer = document.getElementById('particles');
-    const particleCount = window.innerWidth < 768 ? 25 : 40;
+    // Scale particle count with viewport size so the background feels "alive".
+    // Clamped for performance across different device sizes.
+    const area = window.innerWidth * window.innerHeight;
+    const isMobile = window.innerWidth < 600;
+    const minCount = isMobile ? 60 : 90;
+    const maxCount = isMobile ? 140 : 240;
+    const divisor = isMobile ? 5000 : 5200;
+    const particleCount = Math.max(minCount, Math.min(maxCount, Math.round(area / divisor)));
     
     if (particlesContainer) {
         const fragment = document.createDocumentFragment();
@@ -10,7 +17,16 @@
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 12 + 's';
+            particle.style.top = Math.random() * 100 + '%';
+            const size = 1.5 + Math.random() * 5; // 1.5-6.5px
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.opacity = (0.18 + Math.random() * 0.45).toFixed(2);
+            particle.style.animationDelay = Math.random() * 18 + 's';
+            particle.style.animationDuration = (6 + Math.random() * 12) + 's';
+            // Wide horizontal drift to make the motion feel more energetic.
+            particle.style.setProperty('--dx-start', (Math.random() * 360 - 180) + 'px');
+            particle.style.setProperty('--dx-end', (Math.random() * 520 - 260) + 'px');
             fragment.appendChild(particle);
         }
         particlesContainer.appendChild(fragment);
